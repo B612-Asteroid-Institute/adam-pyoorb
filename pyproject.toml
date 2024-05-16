@@ -7,9 +7,8 @@ authors = [
 ]
 readme = "README.md"
 keywords = []
-requires-python = ">=3.11,<4.0"
+requires-python = ">=3.10,<4.0"
 dependencies = [
-    # "adam-core @ git+https://github.com/B612-Asteroid-Institute/adam_core.git@remove-pyoorb",
     "pyoorb @ git+https://github.com/B612-Asteroid-Institute/oorb.git@fork",
     "naif-de440",
     "numpy",
