@@ -25,5 +25,3 @@ def test_propagator_integration():
     assert_allclose(edlu.coordinates.values, back_to_epoch.coordinates.values, rtol=1e-10, atol=1e-10)
     residuals = Residuals.calculate(edlu.coordinates, back_to_epoch.coordinates)
     assert residuals.chi2[0].as_py() < 1e-10
-
-    

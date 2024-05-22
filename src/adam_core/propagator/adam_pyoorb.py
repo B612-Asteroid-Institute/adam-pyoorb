@@ -6,7 +6,7 @@ except ImportError:
 import enum
 import logging
 import os
-from typing import Optional, Union
+from typing import Any, List, Optional, Union
 
 import numpy as np
 import quivr as qv
@@ -19,7 +19,9 @@ from adam_core.orbits.orbits import Orbits
 from adam_core.orbits.variants import VariantEphemeris, VariantOrbits
 from adam_core.time import Timestamp
 
-from adam_core.propagator import EphemerisMixin, EphemerisType, OrbitType, Propagator
+from adam_core.propagator import EphemerisMixin  # ignore:type
+from adam_core.propagator import Propagator  # ignore:type
+from adam_core.propagator import EphemerisType, OrbitType
 from adam_core.propagator.utils import _assert_times_almost_equal
 
 logger = logging.getLogger(__name__)
@@ -41,7 +43,7 @@ class OpenOrbOrbitType(enum.Enum):
 PYOORB_INIT_CACHCE = {}
 
 
-def process_safe_oorb_init(ephfile):
+def process_safe_oorb_init(ephfile: str) -> None:
     """
     Initializes pyoorb only if it hasn't been initialized in this process before
     """
@@ -57,10 +59,10 @@ def process_safe_oorb_init(ephfile):
         raise RuntimeError(f"PYOORB returned error code: {err}")
 
 
-class PYOORB(Propagator, EphemerisMixin):
+class PYOORB(Propagator, EphemerisMixin): # type: ignore[misc]
     def __init__(
         self, *, dynamical_model: str = "N", ephemeris_file: str = "de430.dat"
-    ):
+    ) -> None:
         self.dynamical_model = dynamical_model
         self.ephemeris_file = ephemeris_file
 
@@ -84,13 +86,13 @@ class PYOORB(Propagator, EphemerisMixin):
 
     @staticmethod
     def _configure_orbits(
-        orbits: np.ndarray,
-        t0: np.ndarray,
+        orbits: np.ndarray[Any, Any],
+        t0: np.ndarray[Any, Any],
         orbit_type: OpenOrbOrbitType,
         time_scale: OpenOrbTimescale,
-        magnitude: Optional[Union[float, np.ndarray]] = None,
-        slope: Optional[Union[float, np.ndarray]] = None,
-    ) -> np.ndarray:
+        magnitude: Optional[Union[float, np.ndarray[Any, Any]]] = None,
+        slope: Optional[Union[float, np.ndarray[Any, Any]]] = None,
+    ) -> np.ndarray[Any, Any]:
         """
         Convert an array of orbits into the format expected by PYOORB.
 
@@ -182,8 +184,8 @@ class PYOORB(Propagator, EphemerisMixin):
 
     @staticmethod
     def _configure_epochs(
-        epochs: np.ndarray, time_scale: OpenOrbTimescale
-    ) -> np.ndarray:
+        epochs: np.ndarray[Any, Any], time_scale: OpenOrbTimescale
+    ) -> np.ndarray[Any, Any]:
         """
         Convert an array of times into the format expected by PYOORB.
 
@@ -239,7 +241,7 @@ class PYOORB(Propagator, EphemerisMixin):
 
         # Propagate orbits to each epoch and append to list
         # of new states
-        states_list = []
+        states_list: List[np.ndarray[Any, Any]] = []
         orbits_pyoorb_i = orbits_pyoorb.copy()
         for epoch in epochs_pyoorb:
             orbits_pyoorb_i, err = oo.pyoorb.oorb_propagation(
