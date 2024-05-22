@@ -6,11 +6,11 @@ from adam_core.orbits import Ephemeris
 from adam_core.orbits.query import query_sbdb
 from adam_core.time import Timestamp
 
-from src.adam_core.propagator.adam_pyoorb import PYOORB
+from src.adam_core.propagator.adam_pyoorb import PYOORBPropagator
 
 
 def test_pyoorb_generate_ephemeris():
-    prop = PYOORB()
+    prop = PYOORBPropagator()
 
     edlu = query_sbdb(["Edlu"])
     

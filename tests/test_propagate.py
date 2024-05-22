@@ -2,11 +2,11 @@ from adam_core.coordinates.residuals import Residuals
 from adam_core.orbits.query import query_sbdb
 from numpy.testing import assert_allclose
 
-from src.adam_core.propagator.adam_pyoorb import PYOORB
+from src.adam_core.propagator.adam_pyoorb import PYOORBPropagator
 
 
 def test_pyoorb():
-    prop = PYOORB()
+    prop = PYOORBPropagator()
     assert prop is not None
 
 
@@ -14,7 +14,7 @@ def test_propagator_integration():
     """
     Propagate an orbit forward and backward in time to check for consistency
     """
-    prop = PYOORB()
+    prop = PYOORBPropagator()
     edlu = query_sbdb(["Edlu"])
     # propagate forward 30 days
     thirty_days_forward = edlu.coordinates.time.add_days(30)

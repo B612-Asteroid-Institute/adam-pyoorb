@@ -59,7 +59,7 @@ def process_safe_oorb_init(ephfile: str) -> None:
         raise RuntimeError(f"PYOORB returned error code: {err}")
 
 
-class PYOORB(Propagator, EphemerisMixin):  # type: ignore[misc]
+class PYOORBPropagator(Propagator, EphemerisMixin):  # type: ignore[misc]
     def __init__(
         self, *, dynamical_model: str = "N", ephemeris_file: str = "de430.dat"
     ) -> None:
