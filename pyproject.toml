@@ -10,7 +10,6 @@ keywords = []
 requires-python = ">=3.10,<4.0"
 dependencies = [
     "pyoorb @ git+https://github.com/B612-Asteroid-Institute/oorb.git@fork",
-    "adam-core @ git+https://github.com/B612-Asteroid-Institute/adam_core.git@ak/remove-pyoorb",
     "naif-de440",
     "quivr==0.7.3a1",
     "numpy",
@@ -41,6 +40,7 @@ dev = [
     "mypy",
     "isort",
     "ipython"
+    "adam-core @ git+https://github.com/B612-Asteroid-Institute/adam_core.git@ak/remove-pyoorb",
 ]
 
 [tool.pdm.scripts]
