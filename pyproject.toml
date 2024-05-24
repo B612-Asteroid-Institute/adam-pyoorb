@@ -39,8 +39,8 @@ dev = [
     "ruff",
     "mypy",
     "isort",
-    "ipython"
-    "adam-core @ git+https://github.com/B612-Asteroid-Institute/adam_core.git@ak/remove-pyoorb",
+    "ipython",
+    "adam-core @ git+https://github.com/B612-Asteroid-Institute/adam_core.git@ak/remove-pyoorb"
 ]
 
 [tool.pdm.scripts]
