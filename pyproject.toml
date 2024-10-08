@@ -11,7 +11,7 @@ requires-python = ">=3.10,<4.0"
 dependencies = [
     "pyoorb @ git+https://github.com/B612-Asteroid-Institute/oorb.git@fork",
     "naif-de440",
-    "quivr==0.7.3a1",
+    "quivr",
     "numpy",
     "ray",
     "spiceypy>=6.0.0"
