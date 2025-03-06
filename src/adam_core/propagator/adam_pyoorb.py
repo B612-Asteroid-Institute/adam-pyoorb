@@ -22,7 +22,6 @@ from adam_core.time import Timestamp
 from adam_core.propagator import EphemerisMixin  # ignore:type
 from adam_core.propagator import Propagator  # ignore:type
 from adam_core.propagator import EphemerisType, OrbitType
-from adam_core.propagator.utils import _assert_times_almost_equal
 
 logger = logging.getLogger(__name__)
 
@@ -39,6 +38,8 @@ class OpenOrbOrbitType(enum.Enum):
     COMETARY = 2
     KEPLERIAN = 3
 
+
+MILLISECOND_IN_DAYS = 1 / 86400 / 1000
 
 PYOORB_INIT_CACHCE = {}
 
@@ -57,6 +58,31 @@ def process_safe_oorb_init(ephfile: str) -> None:
     err = oo.pyoorb.oorb_init(ephfile)
     if err != 0:
         raise RuntimeError(f"PYOORB returned error code: {err}")
+
+
+def _assert_times_almost_equal(
+    have: np.ndarray, want: np.ndarray, tolerance: float = 0.1
+):
+    """
+    Raises a ValueError if the time arrays (in units of days such as MJD) are not within the
+    tolerance in milliseconds of each other.
+
+    Parameters
+    ----------
+    have : `~numpy.ndarray`
+        Times (in units of days) to check.
+    want : `~numpy.ndarray`
+        Times (in units of days) to check.
+
+    Raises
+    ------
+    ValueError: If the time arrays are not within the tolerance in milliseconds of each other.
+    """
+    tolerance_in_days = tolerance * MILLISECOND_IN_DAYS
+
+    diff = np.abs(have - want)
+    if np.any(diff > tolerance_in_days):
+        raise ValueError(f"Times were not within {tolerance:.6f} ms of each other.")
 
 
 class PYOORBPropagator(Propagator, EphemerisMixin):  # type: ignore[misc]
